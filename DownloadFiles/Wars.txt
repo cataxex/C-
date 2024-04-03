@@ -1,0 +1,99 @@
+using System;
+
+namespace Fights
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            bool isOpen = true;
+            Character character1 = new Character(0, 0, 0, " ");
+            Character character2 = new Character(0, 0, 0, " ");
+
+            while (isOpen)
+            {
+                Console.WriteLine(new string('-', 25));
+                Console.WriteLine("Игра: <БОИ ГЕРОЕВ>\n");
+                Console.WriteLine("Команды:\n1 - начать игру\n2 - выйти из игры\n");
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        StartGame();
+                        break;
+                    case "2":
+                        isOpen = false;
+                        break;
+                    default:
+                        Console.WriteLine("Такой команды нет.");
+                        break;
+                }
+
+                Console.WriteLine(new string('-', 25));
+                Console.ReadKey(true);
+                Console.Clear();
+            }
+
+            void StartGame()
+            {
+                Console.Write("Введите имя первого персонажа: ");
+                character1._name = Console.ReadLine();
+                Console.Write("Введите здоровье: ");
+                character1._health = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Введите броню: ");
+                character1._armor = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Введите урон: ");
+                character1._damage = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("\nВведите имя второго персонажа: ");
+                character2._name = Console.ReadLine();
+                Console.Write("Введите здоровье: ");
+                character2._health = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Введите броню: ");
+                character2._armor = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Введите урон: ");
+                character2._damage = Convert.ToInt32(Console.ReadLine());
+
+                while (character1._health > 0)
+                {
+                    character1._health -= character1._armor - character2._damage / 100;
+                    character2._health -= character2._armor - character1._damage / 100;
+
+                    Console.WriteLine($"\nЗдоровье первого персонажа: {character1._health}, имя {character1._name}\n");
+                    Console.WriteLine($"\nЗдоровье второго персонажа: {character2._health}, имя {character2._name}\n");
+
+                    if (character1._health <= 0 && character2._health <= 0)
+                    {
+                        Console.WriteLine("Ничья");
+                        break;
+                    }
+                    else if (character1._health <= 0)
+                    {
+                        Console.WriteLine("Победа 2 игрока");
+                        break;
+                    }
+                    else if (character2._health <= 0)
+                    {
+                        Console.WriteLine("Победа 1 игрока");
+                        break;
+                    }
+                }
+            }
+        }
+
+        class Character
+        {
+            public string _name;
+            public int _armor;
+            public int _health;
+            public int _damage;
+
+            public Character(int armor, int health, int damage, string name)
+            {
+                _armor = armor;
+                _health = health;
+                _damage = damage;
+                _name = name;
+            }
+        }
+    }
+}
