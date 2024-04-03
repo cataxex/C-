@@ -1,0 +1,266 @@
+using System;
+using System.Collections.Generic;
+
+namespace Data
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string age = "";
+            string userName = "";
+            string userPassword = "";
+            bool isRenistration = false;
+            string userInput = "";
+            bool isCycle = true;
+
+            List<string> userNames = new List<string>();
+            List<string> UserPasswords = new List<string>();
+            List<string> UserAge = new List<string>();
+
+            string[] commands = {
+                "Зарегестрироваться - регестрация",
+                "Выйти из аккаунта - выход из аккаунта",
+                "Конец - закрыть программу",
+                "Калькулятор - открывает калькулятр",
+                "Войти в акаунт - входит в акаунт"
+            };
+
+
+            while (isCycle)
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+
+                Console.Clear();
+                Coloring(ConsoleColor.Black);
+                Console.SetCursorPosition(100, 0);
+                Console.Write("v 2.0");
+
+                if (isRenistration == true)
+                {
+                    DrowAccount(userName, age, userPassword);
+                }
+
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Здравствуйте, вас приветствует программа Data.\n\nЯ умею выполнять разные команды.\nЕсли вы не " +
+                    "знаете команд, то напишите help\n\n");
+                Console.Write("Введите команду: ");
+
+                Coloring(ConsoleColor.DarkBlue);
+                userInput = Console.ReadLine();
+                Coloring(ConsoleColor.Black);
+
+                switch (userInput)
+                {
+                    case "Конец":
+                        isCycle = false;
+                        Console.Clear();
+                        break;
+                    case "help":
+                        help(commands);
+                        break;
+                    case "Зарегестрироваться":
+                        RecordingData(ref userName, ref age, ref isRenistration, ref userPassword);
+                        break;
+                    case "Выйти из акаунта":
+                        ExitAccount(ref userName, ref userPassword, ref age, ref isRenistration, ref userNames, ref UserPasswords, ref UserAge);
+                        break;
+                    case "Войти в акаунт":
+                        EntranceAccount(ref userName, ref userPassword, ref age, ref isRenistration, ref userNames, ref UserPasswords, ref UserAge);
+                        break;
+                    case "Калькулятор":
+                        Console.WriteLine("Ответ: " + Calculator());
+                        break;
+                    default:
+                        Console.WriteLine("\nТакой комады нет\n");
+                        break;
+                }
+
+                Coloring(ConsoleColor.Black);
+                Console.WriteLine("\nНажмите любую клавишу для продолжения...");
+
+                Console.ReadKey();
+                Console.Clear();
+            }
+
+        }
+
+        static double Calculator()
+        {
+            double answer = 0;
+            double number1;
+            double number2;
+            string operation;
+
+            Coloring(ConsoleColor.Black);
+            Console.WriteLine("< Калькулятор >\n");
+            Console.Write("Введите 1 число: ");
+            Coloring(ConsoleColor.DarkBlue);
+
+            number1 = Convert.ToDouble(Console.ReadLine());
+            Coloring(ConsoleColor.Black);
+            Console.Write("Введите 2 число: ");
+            Coloring(ConsoleColor.DarkBlue);
+
+            number2 = Convert.ToDouble(Console.ReadLine());
+            Coloring(ConsoleColor.Black);
+
+            Console.Write("Выберете операцию (доступны + - * : ^) ");
+            Coloring(ConsoleColor.DarkBlue);
+
+            operation = Console.ReadLine();
+            Coloring(ConsoleColor.Black);
+
+            switch (operation)
+            {
+                case "+":
+                    answer = number1 + number2;
+                    break;
+                case "-":
+                    answer = number1 - number2;
+                    break;
+                case "*":
+                    answer = number1 * number2;
+                    break;
+                case ":":
+                    answer = number1 / number2;
+                    break;
+                case "^":
+                    answer = Math.Pow(number1, number2);
+                    break;
+                default:
+                    Console.WriteLine("Такой операции нет");
+                    break;
+            }
+
+            return answer;
+        }
+
+        static void Coloring(ConsoleColor color = ConsoleColor.Black)
+        {
+            Console.ForegroundColor = color;
+        }
+        static void help(string[] commands)
+        {
+            for (int i = 0; i < commands.Length; i++)
+            {
+                Console.WriteLine("\n" + commands[i] + "\n");
+            }
+        }
+        static void ExitAccount(ref string userName, ref string userPassword, ref string age, ref bool isReg, ref List<string> userNames, ref List<string> userPasswords, ref List<string> userAge)
+        {
+            bool isAccount = false;
+
+            for (int i = 0; i < userPasswords.Count; i++)
+            {
+                if (userNames[i] == userName)
+                {
+                    isAccount = true;
+                }
+            }
+
+            if (isAccount == false)
+            {
+                userNames.Add(userName);
+                userPasswords.Add(userPassword);
+                userAge.Add(age);
+            }
+            else
+            {
+                isAccount = false;
+            }
+
+            age = "";
+            userName = "";
+            userPassword = "";
+            isReg = false;
+            Coloring(ConsoleColor.Black);
+            Console.WriteLine("Вы вышли из акаунта");
+        }
+        static void EntranceAccount(ref string userName, ref string userPassword, ref string age, ref bool isReg, ref List<string> userNames, ref List<string> userPasswords, ref List<string> userAge)
+        {
+            if (isReg == false)
+            {
+                string userInput;
+
+                Coloring(ConsoleColor.Black);
+                Console.Write("Введите имя аккаунта: ");
+
+                Coloring(ConsoleColor.DarkBlue);
+                userInput = Console.ReadLine();
+
+                for (int i = 0; i < userPasswords.Count; i++)
+                {
+                    if (userInput == userNames[i])
+                    {
+                        Coloring(ConsoleColor.Black);
+                        Console.Write("Введите пароль: ");
+
+                        Coloring(ConsoleColor.DarkBlue);
+                        userInput = Console.ReadLine();
+
+                        if (userInput == userPasswords[i])
+                        {
+                            isReg = true;
+                            userName = userNames[i];
+                            userPassword = userPasswords[i];
+                            age = userAge[i];
+                        }
+                        else
+                        {
+                            Coloring(ConsoleColor.Black);
+                            Console.WriteLine("Пароль неверный");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Coloring(ConsoleColor.Black);
+                Console.WriteLine("Вы уже в акаунте");
+            }
+        }
+        static void DrowAccount(string userName, string age, string userPassword)
+        {
+            Console.SetCursorPosition(100, 2);
+            Console.WriteLine("Профиль");
+            Console.SetCursorPosition(100, 4);
+            Console.WriteLine("Имя: " + userName);
+            Console.SetCursorPosition(100, 5);
+            Console.WriteLine("Возраст: " + age);
+            Console.SetCursorPosition(100, 6);
+            Console.WriteLine("Пароль: " + userPassword);
+        }
+        static void RecordingData(ref string userName, ref string age, ref bool isReg, ref string userPassword)
+        {
+            if (isReg == false)
+            {
+                isReg = true;
+                Coloring(ConsoleColor.Black);
+                Console.WriteLine("\n< Регестрация >");
+                Console.Write("Введите имя которое хотите видеть: ");
+
+                Coloring(ConsoleColor.DarkBlue);
+                userName = Console.ReadLine();
+
+                Coloring(ConsoleColor.Black);
+                Console.Write("Введите возраст: ");
+                Coloring(ConsoleColor.DarkBlue);
+
+                age = Console.ReadLine();
+                Coloring(ConsoleColor.Black);
+
+                Console.Write("Введите пароль: ");
+                Coloring(ConsoleColor.DarkBlue);
+
+                userPassword = Console.ReadLine();
+                Coloring(ConsoleColor.Black);
+                Console.WriteLine("Ваши данные успешно записанны!");
+            }
+            else
+            {
+                Console.WriteLine("Вы уже в акаунте");
+            }
+        }
+    }
+}
