@@ -1,0 +1,48 @@
+body {
+    background-color: #292929;
+    color: white;
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+.navigation {
+    background-color: #225687;
+    font-size: 25px;
+    padding: 10px;
+    border: solid 10px #224a87;
+    border-radius: 5px;
+}
+
+.main {
+    font-size: 14px;
+}
+
+.download {
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+}
+
+.download_data {
+    background-color: #d10808;
+    border: solid 10px #870000;
+    float: inline-start;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.download_wars {
+    background-color: #56c423;
+    border: solid 10px #30750f;
+    float: inline-start;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+}
+
+h1 {
+    margin-bottom: 30px;
+    margin-left: 30px;
+    margin-top: 30px;
+}
